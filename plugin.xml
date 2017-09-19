@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin 
+	id="cordova-plugin-beecloud" 
+	version="1.0.0" 
+	xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+	<name>BeeCloudPlugin</name>
+	<js-module name="BeeCloudPlugin" src="www/BeeCloudPlugin.js">
+		<clobbers target="BeeCloudPlugin" />
+	</js-module>
+	<preference name="APP_ID" />
+	<preference name="TEST_SECRET" />
+	<preference name="APP_SECRET" />
+	<platform name="android">
+		<config-file parent="/*" target="res/xml/config.xml">
+			<feature name="BeeCloudPlugin">
+				<param name="android-package" value="com.chltec.beecloud.BeeCloudPlugin" />
+			</feature>
+		</config-file>
+
+		<config-file parent="/*" target="AndroidManifest.xml">
+			<uses-permission android:name="android.permission.INTERNET" />
+            <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+		</config-file>
+
+		<config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <meta-data android:name="beecloud.appid" android:value="$APP_ID"></meta-data>
+            <meta-data android:name="beecloud.testsecret" android:value="$TEST_SECRET"></meta-data>
+            <meta-data android:name="beecloud.appsecret" android:value="$APP_SECRET"></meta-data>
+
+            <activity android:name="cn.beecloud.BCMockPayActivity" android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            <activity android:name="cn.beecloud.BCWechatPaymentActivity" android:launchMode="singleTop" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            <activity-alias android:name=".wxapi.WXPayEntryActivity" android:exported="true" android:targetActivity="cn.beecloud.BCWechatPaymentActivity" />
+            <activity android:name="com.alipay.sdk.app.H5PayActivity" android:configChanges="orientation|keyboardHidden|navigation" android:exported="false" android:screenOrientation="behind" android:windowSoftInputMode="adjustResize|stateHidden" />
+        </config-file>
+
+		<source-file src="src/android/BeeCloudPlugin.java" target-dir="src/com/chltec/beecloud" />
+		<framework src="com.squareup.okhttp3:okhttp:3.2.0" />
+        <source-file src="src/android/libs/beecloud-2.9.4.jar" target-dir="libs" />
+        <source-file src="src/android/libs/gson-2.4.jar" target-dir="libs" />
+        <source-file src="src/android/libs/alipaySdk-20160809.jar" target-dir="libs" />
+	</platform>
+</plugin>
